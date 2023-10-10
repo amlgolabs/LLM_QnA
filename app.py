@@ -1,6 +1,6 @@
 import os
 import streamlit as st
-from llama_index import GPTSimpleVectorIndex, Document, SimpleDirectoryReader
+from llama_index import GPTVectorStoreIndex, Document, SimpleDirectoryReader #GPTSimpleVectorIndex
 
 st.title("DocuSearch GPT")
 st.write("A document indexing and querying application that helps users to quickly search through their collections of documents, articles, research papers, and reports. DocuSearch uses OpenAI GPT model to extract vectors representing each document, enabling users to search for relevant information within their collection.")
@@ -33,7 +33,7 @@ if st.session_state.get('button') != True:
 
 if st.session_state['button'] == True:
     documents = SimpleDirectoryReader('index').load_data()
-    index = GPTSimpleVectorIndex.from_documents(documents)
+    index = GPTVectorStoreIndex.from_documents(documents)
     #st.info(index.query("what is mobile number of heera lal"))
     st.success("Indexing Done!")
     query = st.text_input("Enter What you want To Ask?")
