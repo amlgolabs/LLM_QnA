@@ -39,6 +39,6 @@ if st.session_state['button'] == True:
     query_ques = st.text_input("Enter What you want To Ask?")
     if st.button("Get Answer"):
         #response = index.query(query_ques)
-          query_engine = index.as_query_engine()
-         response = query_engine.query(query_ques)
+        query_engine = index.as_query_engine()
+        response = query_engine.query(query_ques)
         st.write(response)
