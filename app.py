@@ -5,7 +5,7 @@ from llama_index import GPTVectorStoreIndex, Document, SimpleDirectoryReader #GP
 st.title("DocuSearch GPT")
 st.write("A document indexing and querying application that helps users to quickly search through their collections of documents, articles, research papers, and reports. DocuSearch uses OpenAI GPT model to extract vectors representing each document, enabling users to search for relevant information within their collection.")
 
-api = st.text_input('Enter Your OpenAI API')
+api = st.text_input('Enter Your OpenAI API',type='password')
 
 if api:
      os.environ['OPENAI_API_KEY'] = api
