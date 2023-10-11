@@ -1,44 +1,64 @@
 import os
 import streamlit as st
-from llama_index import GPTVectorStoreIndex, Document, SimpleDirectoryReader #GPTSimpleVectorIndex
+from llama_index import GPTVectorStoreIndex, Document, SimpleDirectoryReader
+import streamlit_authenticator as stauth
+import yaml
+from yaml.loader import SafeLoader
+from requests_oauthlib import OAuth1Session
 
-st.title("DocuSearch GPT")
-st.write("A document indexing and querying application that helps users to quickly search through their collections of documents, articles, research papers, and reports. DocuSearch uses OpenAI GPT model to extract vectors representing each document, enabling users to search for relevant information within their collection.")
+st.title("DocuQuery: Instant Answers from Documents with AI")
+st.write("Introducing DocuQuery, your key to unlocking a world of instant knowledge within your documents. With the power of AI, this cutting-edge application revolutionizes the way you access information. No more tedious searches or manual scanning – simply upload your document, ask a question, and let DocuQuery deliver precise and immediate answers. Whether you're a student, researcher, or professional, DocuQuery empowers you to delve deeper, work smarter, and make informed decisions effortlessly. Experience the future of document search and discovery at your fingertips with DocuQuery.")
 
-api = st.text_input('Enter Your OpenAI API',type='password')
+#api = st.text_input('Enter Your OpenAI API',type='password')
 
-if api:
-     os.environ['OPENAI_API_KEY'] = api
-else:
-     st.error("Please Enter Your OpenAI API Key")
+if True:
+     os.environ['OPENAI_API_KEY'] = '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'
+# else:
+#      st.error("Please Enter Your OpenAI API Key")
 
-def save_file(file, folder):
-    if folder not in os.listdir():
-            os.makedirs(folder)
-    with open(os.path.join(folder, file.name), "wb") as f:
-        f.write(file.getvalue())
+with open("config.yaml") as file:
+    config = yaml.load(file, Loader=SafeLoader)
+authenticator = stauth.Authenticate(
+    config['credentials'],
+    config['cookie']['name'],
+    config['cookie']['key'],
+    config['cookie']['expiry_days'],
+    config['preauthorized']
+)
+name, authentication_status, username = authenticator.login('Login', 'main')
 
-uploaded_files = st.file_uploader("Choose .txt files to upload", accept_multiple_files=True, type="txt")
+if authentication_status:
+    authenticator.logout('Logout', 'main', key='unique_key')
+    st.write(f'Welcome *{name}*')
 
-if uploaded_files:
-    for uploaded_file in uploaded_files:
-        save_file(uploaded_file, "index")
-        st.info(f"{uploaded_file.name} saved to index folder.")
+    def save_file(file, folder):
+        if folder not in os.listdir():
+                os.makedirs(folder)
+        with open(os.path.join(folder, file.name), "wb") as f:
+            f.write(file.getvalue())
 
-index = None  # Define index outside of the if block
+    uploaded_files = st.file_uploader("Choose .txt files to upload", accept_multiple_files=True, type="txt")
 
-button1 = st.button('Start Indexing Document')
-if st.session_state.get('button') != True:
-        st.session_state['button'] = button1 # Saved the state
+    if uploaded_files:
+        for uploaded_file in uploaded_files:
+            save_file(uploaded_file, "index")
+            st.info(f"{uploaded_file.name} saved to index folder.")
 
-if st.session_state['button'] == True:
-    documents = SimpleDirectoryReader('index').load_data()
-    index = GPTVectorStoreIndex.from_documents(documents)
-    #st.info(index.query("what is mobile number of heera lal"))
-    st.success("Indexing Done!")
-    query_ques = st.text_input("Enter What you want To Ask?")
-    if st.button("Get Answer"):
-        #response = index.query(query_ques)
-        query_engine = index.as_query_engine()
-        response = query_engine.query(query_ques)
-        st.write(response)
+    index = None  # Define index outside of the if block
+
+    button1 = st.button('Start Indexing Document')
+    if st.session_state.get('button') != True:
+            st.session_state['button'] = button1 # Saved the state
+
+    if st.session_state['button'] == True:
+        documents = SimpleDirectoryReader('index').load_data()
+        index = GPTVectorStoreIndex.from_documents(documents)
+        st.success("Indexing Done!")
+        query_ques = st.text_input("Enter What you want To Ask?")
+        if st.button("Get Answer"):
+            query_engine = index.as_query_engine()
+            response = query_engine.query(query_ques)
+            st.write(response)
+
+elif authentication_status is False:
+    st.error('Username/password is incorrect')
