@@ -1,0 +1,17 @@
+credentials:
+  usernames:
+    rkaushik:
+      email: raghav.kaushik@amlgolabs.com
+      name: Raghav Kaushik
+      password: $2b$12$rUOSDB76QMCub7nIybXVFOdl/mofoklvTjJABIBx4Im9KeBr/w5ci
+    ajay_yadav:
+      email: ajay.yadav@amlgolabs.com
+      name: Ajay Yadav
+      password: $2b$12$cdXdvfmO.ceXFCqizYvZK.NuIfE53QsfruwWxihYgsGW8dZGjEWKq
+cookie:
+  expiry_days: 1
+  key: amlgolabs_key # Must be string
+  name: amlgolabs_docuquery
+preauthorized:
+  emails:
+  - ajay.yadav@amlgolabs.com
