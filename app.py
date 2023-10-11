@@ -7,7 +7,7 @@ from yaml.loader import SafeLoader
 from requests_oauthlib import OAuth1Session
 
 st.title("DocuQuery: Instant Answers from Documents with AI")
-st.write("Introducing DocuQuery, your key to unlocking a world of instant knowledge within your documents. With the power of AI, this cutting-edge application revolutionizes the way you access information. No more tedious searches or manual scanning – simply upload your document, ask a question, and let DocuQuery deliver precise and immediate answers. Whether you're a student, researcher, or professional, DocuQuery empowers you to delve deeper, work smarter, and make informed decisions effortlessly. Experience the future of document search and discovery at your fingertips with DocuQuery.")
+st.write("<p>Introducing DocuQuery, your key to unlocking a world of instant knowledge within your documents. With the power of AI, this cutting-edge application revolutionizes the way you access information. No more tedious searches or manual scanning – simply upload your document, ask a question, and let DocuQuery deliver precise and immediate answers. Whether you're a student, researcher, or professional, DocuQuery empowers you to delve deeper, work smarter, and make informed decisions effortlessly. Experience the future of document search and discovery at your fingertips with DocuQuery.</p>",unsafe_allow_html=True)
 
 #api = st.text_input('Enter Your OpenAI API',type='password')
 
