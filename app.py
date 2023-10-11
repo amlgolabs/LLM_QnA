@@ -30,11 +30,11 @@ if authentication_status:
         with open(os.path.join(folder, file.name), "wb") as f:
             f.write(file.getvalue())
             
-    api = st.text_input('Enter Your OpenAI API',type='password')
+    api = st.text_input('Enter Your credentials',type='password')
     if api:
          os.environ['OPENAI_API_KEY'] = api
     else:
-         st.error("Please Enter Your OpenAI API Key")
+         st.error("Please Enter Your credentials")
 
     uploaded_files = st.file_uploader("Choose .txt files to upload", accept_multiple_files=True, type="txt")
 
