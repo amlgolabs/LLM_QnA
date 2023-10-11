@@ -29,12 +29,12 @@ if authentication_status:
                 os.makedirs(folder)
         with open(os.path.join(folder, file.name), "wb") as f:
             f.write(file.getvalue())
-     api = st.text_input('Enter Your OpenAI API',type='password')
-
-     if api:
-          os.environ['OPENAI_API_KEY'] = api
-     else:
-          st.error("Please Enter Your OpenAI API Key")
+            
+    api = st.text_input('Enter Your OpenAI API',type='password')
+    if api:
+         os.environ['OPENAI_API_KEY'] = api
+    else:
+         st.error("Please Enter Your OpenAI API Key")
 
     uploaded_files = st.file_uploader("Choose .txt files to upload", accept_multiple_files=True, type="txt")
 
