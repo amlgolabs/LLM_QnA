@@ -9,13 +9,6 @@ from requests_oauthlib import OAuth1Session
 st.title("DocuQuery: Instant Answers from Documents with AI")
 st.write("<p>Introducing DocuQuery, your key to unlocking a world of instant knowledge within your documents. With the power of AI, this cutting-edge application revolutionizes the way you access information. No more tedious searches or manual scanning – simply upload your document, ask a question, and let DocuQuery deliver precise and immediate answers. Whether you're a student, researcher, or professional, DocuQuery empowers you to delve deeper, work smarter, and make informed decisions effortlessly. Experience the future of document search and discovery at your fingertips with DocuQuery.</p>",unsafe_allow_html=True)
 
-#api = st.text_input('Enter Your OpenAI API',type='password')
-
-if True:
-     os.environ['OPENAI_API_KEY'] = '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'
-# else:
-#      st.error("Please Enter Your OpenAI API Key")
-
 with open("config.yaml") as file:
     config = yaml.load(file, Loader=SafeLoader)
 authenticator = stauth.Authenticate(
@@ -36,6 +29,12 @@ if authentication_status:
                 os.makedirs(folder)
         with open(os.path.join(folder, file.name), "wb") as f:
             f.write(file.getvalue())
+     api = st.text_input('Enter Your OpenAI API',type='password')
+
+     if api:
+          os.environ['OPENAI_API_KEY'] = api
+     else:
+          st.error("Please Enter Your OpenAI API Key")
 
     uploaded_files = st.file_uploader("Choose .txt files to upload", accept_multiple_files=True, type="txt")
 
